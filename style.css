@@ -1,0 +1,22 @@
+.mb-3, .btn {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.toBeHidden {
+    visibility: collapse;
+}
+
+.myCard {
+    font-size: 3rem;
+    color: beige;
+    margin-left: 50px;
+    text-align: center;
+
+}

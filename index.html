@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body id="card">
+    <h1>Fill the form to get a nice card</h1>
+    
+    <form>
+        <div class="row mb-3">
+          <label for="greeting" class="col-sm-2 col-form-label">Greeting</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="greeting">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="typeOFEvent" class="col-sm-2 col-form-label">Type of Event</label>
+          <div class="col-sm-10">
+            <select id="typeEvent" class="form-select" required >
+                <option selected>Choose from list</option>
+                <option value="1">Valentine's Day</option>
+                <option value="2">Easter</option>
+                <option value="3">Christmas</option>
+                <option value="4">New Year</option>
+            </select>  
+          </div>
+        </div>
+        <div class="row mb-3">
+            <label for="message" class="col-sm-2 col-form-label">Message</label>
+            <div class="col-sm-10">
+                <textarea id="message" class="form-control" aria-label="With textarea"></textarea>
+            </div>
+        </div>
+        <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
+    
+      </form>
+       
+</div>
+<!-- <div> -->
+    <p class="myCard" id="greetingOut"></p>
+    <p class="myCard" id="messageOut"></p>
+<!-- </div> -->
+
+
+<script>
+    const api_url = `https://api.unsplash.com/photos/random/?`
+    const accessKey = `client_id=rylsLn4p79tT7fe9Wa0XlZVHLwtsxvLH-Lti6_AnpMs`
+
+    function submitBtnOnclick() {
+        let greeting = document.getElementById('greeting').value;
+        let typeEvent = document.getElementById('typeEvent').value;
+        let typeEventString = "";
+        // console.log(typeEvent);
+        // console.log(typeof(typeEvent))
+        switch (typeEvent) {
+            case "1": 
+                typeEventString = "Valentine's Day";
+                break;
+            case "2":
+                typeEventString = "Easter";
+                break;
+            case "3":
+                typeEventString = "Christmas";
+                break;
+            case "4":
+                typeEventString = "New Year";
+                break;
+        }
+        let message = document.getElementById('message').value;
+
+        document.getElementById('greetingOut').innerHTML = greeting;
+        document.getElementById('messageOut').innerHTML = message;
+
+        document.querySelector("form").classList.add("toBeHidden");
+        document.querySelector("h1").classList.add("toBeHidden");
+
+        console.log(typeEventString);
+        getPicture(typeEventString);
+        // makeCard(greeting);
+        // makeCard(message)
+    }
+
+    async function getPicture(typeEventString){
+        // &query;
+        console.log(api_url + accessKey + `&query=${typeEventString}`)
+        const response = await fetch(api_url + accessKey + `&query=${typeEventString}`);
+        const data = await response.json();
+        pictureLink = data.urls.regular;
+        console.log(pictureLink);
+        makeBackground(pictureLink);
+        }
+    
+    function makeBackground(pictureLink){
+        document.getElementById("card").style.backgroundImage = `url(${pictureLink})`;
+    }
+    
+    // function makeCard(text){
+    //     let elementH2 = document.createElement('h2');
+    //     elementH2.textContent = text;
+    //     document.body.append(elementH2);
+    //     document.getElementById("h1").insertBefore(elementH2, document.body)
+    // }
+
+    document.getElementById('submitBtn').addEventListener("click", submitBtnOnclick)
+
+
+
+</script>
+    
+</body>
+</html>
